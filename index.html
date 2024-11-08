@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Check - by Nilesh Barela</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+            font-size: 2em;
+        }
+        .developer-name {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 80%;
+            max-width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Full-screen loading overlay */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .loadingContent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .loadingBarContainer {
+            width: 80%;
+            max-width: 400px;
+            background-color: #555;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .loadingBar {
+            height: 20px;
+            background-color: #4CAF50;
+            width: 0;
+            border-radius: 8px;
+            transition: width 0.5s;
+        }
+
+        /* Result overlay with wood-themed font and styling */
+        #resultOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #3e2723;  /* Dark brown background */
+            color: #f9f871;
+            font-family: 'Georgia', serif;
+            text-align: center;
+            z-index: 1001;
+        }
+        .resultContent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            max-width: 80%;
+            padding: 20px;
+            background-color: #5d4037;  /* Lighter wood color */
+            border: 5px solid #8d6e63;  /* Border resembling wood grain */
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+        .resultContent h2 {
+            font-size: 2.5em;
+            color: #f9f871;
+            margin: 0 0 10px;
+            text-shadow: 2px 2px 4px #4e342e;  /* Text shadow for depth */
+        }
+        .resultContent p {
+            font-size: 1.4em;
+            margin: 0;
+            color: #fff8e1;  /* Soft cream color for the result text */
+        }
+        .credits {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #d7ccc8;  /* Subtle wood-tone color */
+        }
+    </style>
+</head>
+<body>
+
+    <h1> Weather Check</h1>
+    <div class="developer-name">Developed by Nilesh Barela</div>
+    <input type="text" id="location" placeholder="Enter your location">
+    <button onclick="startWeatherCheck()">Check Weather</button>
+
+    <!-- Full-screen loading overlay -->
+    <div id="loadingOverlay">
+        <div class="loadingContent">
+            <p>Checking weather, please wait...</p>
+            <div class="loadingBarContainer">
+                <div class="loadingBar" id="loadingBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full-screen result overlay with wood theme -->
+    <div id="resultOverlay">
+        <div class="resultContent">
+            <h2>Result:</h2>
+            <p>Just look outside!</p>
+            <div class="credits">Developed by Nilesh Barela</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to start the "Check Weather" process
+        function startWeatherCheck() {
+            const locationInput = document.getElementById("location").value;
+            if (!locationInput) {
+                alert("Please enter a location!");
+                return;
+            }
+
+            // Show the loading overlay
+            const loadingOverlay = document.getElementById("loadingOverlay");
+            const loadingBar = document.getElementById("loadingBar");
+            loadingOverlay.style.display = "block";
+            loadingBar.style.width = "0";  // Reset the loading bar
+
+            // Animate the loading bar
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    showResult();
+                } else {
+                    progress += 10;
+                    loadingBar.style.width = progress + "%";
+                }
+            }, 200);  // Increase loading bar every 200ms
+        }
+
+        // Function to show the result
+        function showResult() {
+            // Hide the loading overlay and show the result overlay
+            document.getElementById("loadingOverlay").style.display = "none";
+            document.getElementById("resultOverlay").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
